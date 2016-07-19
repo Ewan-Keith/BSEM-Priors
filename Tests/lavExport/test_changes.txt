@@ -1,0 +1,111 @@
+model {
+  for(i in 1:N) {
+    for(j in 1:9) {
+      y[i,j] ~ dnorm(mu[i,j],invtheta[j,g[i]])
+    }
+
+    mu[i,1] <- nu[1,g[i]] + lambda[1,g[i]]*eta[i,1]
+    mu[i,2] <- nu[2,g[i]] + lambda[2,g[i]]*eta[i,1]
+    mu[i,3] <- nu[3,g[i]] + lambda[3,g[i]]*eta[i,1]
+    mu[i,4] <- nu[4,g[i]] + lambda[4,g[i]]*eta[i,2]
+    mu[i,5] <- nu[5,g[i]] + lambda[5,g[i]]*eta[i,2]
+    mu[i,6] <- nu[6,g[i]] + lambda[6,g[i]]*eta[i,2]
+    mu[i,7] <- nu[7,g[i]] + lambda[7,g[i]]*eta[i,3]
+    mu[i,8] <- nu[8,g[i]] + lambda[8,g[i]]*eta[i,3]
+    mu[i,9] <- nu[9,g[i]] + lambda[9,g[i]]*eta[i,3]
+
+    # lvs
+    eta[i,1] ~ dnorm(mu.eta[i,1], invpsistar[1,g[i]])
+    eta[i,2] ~ dnorm(mu.eta[i,2], invpsistar[2,g[i]])
+    eta[i,3] ~ dnorm(mu.eta[i,3], invpsistar[3,g[i]])
+    eta[i,4] ~ dnorm(mu.eta[i,4], invpsistar[4,g[i]])
+    eta[i,5] ~ dnorm(mu.eta[i,5], invpsistar[5,g[i]])
+    eta[i,6] ~ dnorm(mu.eta[i,6], invpsistar[6,g[i]])
+    mu.eta[i,1] <- alpha[1,g[i]] + beta[1,g[i]]*eta[i,4] + beta[3,g[i]]*eta[i,5]
+    mu.eta[i,2] <- alpha[2,g[i]] + beta[2,g[i]]*eta[i,4] + beta[5,g[i]]*eta[i,6]
+    mu.eta[i,3] <- alpha[3,g[i]] + beta[4,g[i]]*eta[i,5] + beta[6,g[i]]*eta[i,6]
+    mu.eta[i,4] <- 0
+    mu.eta[i,5] <- 0
+    mu.eta[i,6] <- 0
+  }
+
+  # Priors/constraints
+  nu[1,1] ~ dnorm(0,1e-3)
+  lambda[1,1] ~ dnorm(0,1e-2)T(0,)
+  nu[2,1] ~ dnorm(0,1e-3)
+  lambda[2,1] ~ dnorm(0,1e-2)
+  nu[3,1] ~ dnorm(0,1e-3)
+  lambda[3,1] ~ dnorm(0,1e-2)
+  nu[4,1] ~ dnorm(0,1e-3)
+  lambda[4,1] ~ dnorm(0,1e-2)T(0,)
+  nu[5,1] ~ dnorm(0,1e-3)
+  lambda[5,1] ~ dnorm(0,1e-2)
+  nu[6,1] ~ dnorm(0,1e-3)
+  lambda[6,1] ~ dnorm(0,1e-2)
+  nu[7,1] ~ dnorm(0,1e-3)
+  lambda[7,1] ~ dnorm(0,1e-2)T(0,)
+  nu[8,1] ~ dnorm(0,1e-3)
+  lambda[8,1] ~ dnorm(0,1e-2)
+  nu[9,1] ~ dnorm(0,1e-3)
+  lambda[9,1] ~ dnorm(0,1e-2)
+  alpha[1,1] <- 0
+  beta[1,1] <- sqrt(abs(rho[1,1])*psi[1,1])
+  beta[3,1] <- sqrt(abs(rho[2,1])*psi[1,1])
+  alpha[2,1] <- 0
+  beta[2,1] <- (-1 + 2*step(rho[1,1]))*sqrt(abs(rho[1,1])*psi[2,1])
+  beta[5,1] <- sqrt(abs(rho[3,1])*psi[2,1])
+  alpha[3,1] <- 0
+  beta[4,1] <- (-1 + 2*step(rho[2,1]))*sqrt(abs(rho[2,1])*psi[3,1])
+  beta[6,1] <- (-1 + 2*step(rho[3,1]))*sqrt(abs(rho[3,1])*psi[3,1])
+  invtheta[1,1] ~ dgamma(1,.5)
+  invtheta[2,1] ~ dgamma(1,.5)
+  invtheta[3,1] ~ dgamma(1,.5)
+  invtheta[4,1] ~ dgamma(1,.5)
+  invtheta[5,1] ~ dgamma(1,.5)
+  invtheta[6,1] ~ dgamma(1,.5)
+  invtheta[7,1] ~ dgamma(1,.5)
+  invtheta[8,1] ~ dgamma(1,.5)
+  invtheta[9,1] ~ dgamma(1,.5)
+
+  for(j in 1:9) {
+    for(k in 1:1) {
+      theta[j,k] <- 1/invtheta[j,k]
+    }
+  }
+
+  invpsi[1,1] <- 1
+  invpsi[2,1] <- 1
+  invpsi[3,1] <- 1
+  invpsi[4,1] <- 1
+  invpsi[5,1] <- 1
+  invpsi[6,1] <- 1
+
+  for(j in 1:6) {
+    for(k in 1:1) {
+      psi[j,k] <- 1/invpsi[j,k]
+    }
+  }
+
+  # correlations/covariances 
+  rho[1,1] <- -1 + 2*rstar[1,1]
+  rstar[1,1] ~ dbeta(1,1)
+  rho[2,1] <- -1 + 2*rstar[2,1]
+  rstar[2,1] ~ dbeta(1,1)
+  rho[3,1] <- -1 + 2*rstar[3,1]
+  rstar[3,1] ~ dbeta(1,1)
+
+
+  # variances & covariances
+
+  invpsistar[1,1] <- 1/(psi[1,1] - (beta[1,1]^2/invpsi[4,1]) - (beta[3,1]^2/invpsi[5,1]))
+  invpsistar[2,1] <- 1/(psi[2,1] - (beta[2,1]^2/invpsi[4,1]) - (beta[5,1]^2/invpsi[6,1]))
+  invpsistar[3,1] <- 1/(psi[3,1] - (beta[4,1]^2/invpsi[5,1]) - (beta[6,1]^2/invpsi[6,1]))
+  invpsistar[4,1] <- 1/(psi[4,1])
+  invpsistar[5,1] <- 1/(psi[5,1])
+  invpsistar[6,1] <- 1/(psi[6,1])
+
+  cov[1,1] <- psi[4,1]*beta[1,1]*beta[2,1]
+  cov[2,1] <- psi[5,1]*beta[3,1]*beta[4,1]
+  cov[3,1] <- psi[6,1]*beta[5,1]*beta[6,1]
+
+} # End of model

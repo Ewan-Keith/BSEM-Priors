@@ -1,0 +1,18 @@
+{
+    "contents" : "#### Code for investigating highe CL RMSE LASSO runs\n####\n\nlibrary(rstan)\nlibrary(dplyr)\nlibrary(loo)\n\nrstan_options(auto_write = TRUE)\noptions(mc.cores = parallel::detectCores())\n\n# define population cross loading values for later comparison\npop_cl <- c(rep(0, 5), \n            0.6, \n            rep(0, 8),\n            0.2,\n            rep(0, 10),\n            0.4,\n            rep(0, 4))\n\n\n# initialise dataframe to hold results\nsparse_lasso <- data.frame(\n  cl_1_discrepancy = NA, cl_2_discrepancy = NA, cl_3_discrepancy = NA,\n  cl_4_discrepancy = NA, cl_5_discrepancy = NA, cl_6_discrepancy = NA,\n  cl_7_discrepancy = NA, cl_8_discrepancy = NA, cl_9_discrepancy = NA,\n  cl_10_discrepancy = NA, cl_11_discrepancy = NA, cl_12_discrepancy = NA,\n  cl_13_discrepancy = NA, cl_14_discrepancy = NA, cl_15_discrepancy = NA,\n  cl_16_discrepancy = NA, cl_17_discrepancy = NA, cl_18_discrepancy = NA,\n  cl_19_discrepancy = NA, cl_20_discrepancy = NA, cl_21_discrepancy = NA,\n  cl_22_discrepancy = NA, cl_23_discrepancy = NA, cl_24_discrepancy = NA,\n  cl_25_discrepancy = NA, cl_26_discrepancy = NA, cl_27_discrepancy = NA,\n  cl_28_discrepancy = NA, cl_29_discrepancy = NA, cl_30_discrepancy = NA,\n  RMSE = NA,\n  elpd_loo = NA,\n  elpd_loo_se = NA,\n  p_loo = NA,\n  p_loo_se = NA\n)\n\ni <- 11 # datasets to simulate, shown to have highest CL RMSE value\n\nset.seed(456789)\n  \n  # read in data\n  filename <- paste0(\"data/sparse/sem_data_\", i, \".csv\")\n  current_data <- read.csv(eval(filename))\n  \n  # prep data for stan\n  stan_dat <- list(N = 200,\n                   P = 15,\n                   D = 3,\n                   C = 30,\n                   X = as.matrix(current_data)\n  )\n  \n  # fit model\n  fit <- stan(file = 'models/sem_cl_lasso_reparam.stan', data = stan_dat, \n              iter = 2000, chains = 3, thin = 5,\n              control = list(adapt_delta = 0.999))\n  \n  # extract cross loading samples\n  cross_loadings <- rstan::extract(fit, pars = \"cl\")$cl\n  \n  # calculate posterior median\n  estimated_cl <- apply(cross_loadings, 2, median)\n  \n  # calculate approximation to population value\n  pop_dif <- pop_cl - estimated_cl\n  \n  # save error values\n  sparse_lasso[i, 1:30] <- pop_dif\n  temp_errors <- sparse_lasso[i,1:30]  %>% \n    as.numeric()\n  \n  sparse_lasso[i, \"RMSE\"] <- sqrt(mean(temp_errors^2))\n  \n  # extract log-likelihood\n  log_lik <- extract_log_lik(fit)\n  \n  # calculate loo values\n  loo_extract <- loo(log_lik)\n  \n  sparse_lasso[i, \"elpd_loo\"] <- loo_extract$elpd_loo\n  sparse_lasso[i, \"elpd_loo_se\"] <- loo_extract$se_elpd_loo\n  sparse_lasso[i, \"p_loo\"] <- loo_extract$p_loo\n  sparse_lasso[i, \"p_loo_se\"] <- loo_extract$se_p_loo\n  \n\n\n\n\n\n\n\n",
+    "created" : 1466266703949.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1138502212",
+    "id" : "17E2B4E2",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
