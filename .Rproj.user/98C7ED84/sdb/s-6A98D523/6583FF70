@@ -1,0 +1,18 @@
+{
+    "contents" : "setwd(\"C:/Users/Ewan/Desktop/fitted models\")\n\nlibrary(shinystan)\nlibrary(loo)\n\nGauss_mod <- readRDS(\"fitted H&S gaussian.rds\")\n#launch_shinystan(Gauss_mod)\n\n# extract cross loading samples\nGauss_cross_loadings <- rstan::extract(Gauss_mod, pars = \"cl\")$cl\n\n# calculate posterior median\nGauss_estimated_cl <- apply(Gauss_cross_loadings, 2, median)\n\n\n\nhs_mod <- readRDS(\"fitted H&S horseshoe.rds\")\n#launch_shinystan(hs_mod)\n\n\n\n",
+    "created" : 1471797552806.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "3739515846",
+    "id" : "6583FF70",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

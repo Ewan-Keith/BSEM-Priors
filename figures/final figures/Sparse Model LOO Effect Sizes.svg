@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -44,8 +44,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="1.4194526"
-     inkscape:cx="355.35099"
-     inkscape:cy="245.52034"
+     inkscape:cx="352.68277"
+     inkscape:cy="243.22993"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -817,13 +817,13 @@
        sodipodi:role="line"
        x="286.85156"
        y="345.64856"
-       id="tspan4898">FIGURE  X  Regression coefficients, and 95% credible intervals, for LOO model fit regressed on cross</tspan><tspan
+       id="tspan4898">FIGURE  8  Regression coefficients, and 95% confidence intervals, for LOO model fit regressed on cross</tspan><tspan
        sodipodi:role="line"
        x="288.51563"
        y="360.64856"
-       id="tspan4902">loading prior distribution. LOO expressed on the deviance scale (lower values indicate better fit). </tspan><tspan
+       id="tspan4902">loading prior distribution. LOO is expressed on the deviance scale (lower values indicate better fit). </tspan><tspan
        sodipodi:role="line"
        x="288.51563"
        y="375.64856"
-       id="tspan4908">Coefficients are relative to model fit when cross loadings are unestimated. </tspan></text>
+       id="tspan4908">Coefficients are relative to model fit when cross loadings are restricted to zero. </tspan></text>
 </svg>

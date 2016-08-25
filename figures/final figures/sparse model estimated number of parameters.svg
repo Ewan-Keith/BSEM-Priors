@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -44,8 +44,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="1.5619694"
-     inkscape:cx="395.34118"
-     inkscape:cy="195.4063"
+     inkscape:cx="364.52705"
+     inkscape:cy="224.40613"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -793,7 +793,7 @@
        sodipodi:role="line"
        x="330.27829"
        y="325.293"
-       id="tspan4738">Estimated Effect on Effective Number of Parameters</tspan></text>
+       id="tspan4738">Estimated Effective Number of Parameters</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -915,7 +915,7 @@
        sodipodi:role="line"
        x="317.97302"
        y="352.23206"
-       id="tspan4898">FIGURE  X  Regression coefficients, and 95% credible intervals, for effective number of parameters</tspan><tspan
+       id="tspan4898">FIGURE  9  Regression coefficients, and 95% confidence intervals, for effective number of parameters</tspan><tspan
        sodipodi:role="line"
        x="319.63708"
        y="367.23206"

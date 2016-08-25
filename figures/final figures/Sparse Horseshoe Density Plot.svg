@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -40,8 +40,8 @@
      id="namedview1684"
      showgrid="false"
      inkscape:zoom="1.1619048"
-     inkscape:cx="360.65288"
-     inkscape:cy="226.60347"
+     inkscape:cx="233.70616"
+     inkscape:cy="283.93575"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -1929,7 +1929,7 @@
        sodipodi:role="line"
        x="305.27405"
        y="482.77826"
-       id="tspan4908">FIGURE  X  Distributions of cross loading parameter posteriors across 100 simulated data</tspan><tspan
+       id="tspan4908">FIGURE  6  Distributions of cross loading parameter posteriors across 100 simulated data</tspan><tspan
        sodipodi:role="line"
        x="306.93811"
        y="497.77826"

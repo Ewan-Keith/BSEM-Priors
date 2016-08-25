@@ -1,0 +1,18 @@
+{
+    "contents" : "#### BSEM model of holzinger-swineford data\nlibrary(dplyr)\nlibrary(rstan)\nlibrary(shinystan)\nlibrary(loo)\nlibrary(reshape2)\nlibrary(ggplot2)\nlibrary(GGally)\nlibrary(ggthemes)\nlibrary(lme4)\nlibrary(arm)\nlibrary(MBESS)\n\nrstan_options(auto_write = TRUE)\noptions(mc.cores = parallel::detectCores())\n\n\n#### load and prep data ####\ndata(HS.data)\n\n# remove unused variables\nholz_dat <- HS.data %>% \n  dplyr::select(\n    -id, -Gender, -grade, -agey, -agem,\n    -paperrev, -flagssub,\n    -deduct, -numeric, -problemr, -series, -arithmet)\n\n# split out into schools\ngrant_dat <- holz_dat %>% filter(school == 'Grant-White')\npast_dat <- holz_dat %>% filter(school == 'Pasteur')\n\n# standardise each dataset individually\ngrant_dat_stand <- scale(grant_dat[,-1])\npast_dat_stand <- scale(past_dat[,-1])\n\n# clean work space\nrm(HS.data, holz_dat, grant_dat, past_dat, past_dat_stand) \n\n\n#### grant school analysis ####\n\n# prep data for stan\nstan_grant_dat <- list(N = 145,\n                 P = 19,\n                 D = 4,\n                 C = 57,\n                 X = grant_dat_stand\n)\n\n# fit Gaussian model\nfit_grant <- stan(file = 'H&S analysis/models/H&S Gaussian.stan', \n                  data = stan_grant_dat, \n                  iter = 10000, chains = 3, thin = 3,\n                  control = list(adapt_delta = 0.9))\n\n# fit horseshoe model\nfit_grant_hs <- stan(file = 'H&S analysis/models/H&S horseshoe.stan', \n                  data = stan_grant_dat, \n                  iter = 10000, chains = 3, thin = 3,\n                  control = list(adapt_delta = 0.999))\n\n# fit replication of muthen model with variance on cls = .01\nfit_grant_repli <- stan(file = 'H&S analysis/models/H&S Gaussian replic.stan', \n                     data = stan_grant_dat, \n                     iter = 10000, chains = 3, thin = 3,\n                     control = list(adapt_delta = 0.999))\n\n\n# # fit horseshoe plus model\n# fit_grant_hs_plus <- stan(file = 'H&S analysis/models/H&S horseshoe plus.stan', \n#                           data = stan_grant_dat, \n#                           iter = 3000, chains = 3, thin = 3,\n#                           control = list(adapt_delta = 0.999,\n#                                          max_treedepth = 15))\n\n## save models\n# saveRDS(fit_grant_hs, file = 'H&S horseshoe[correct data].rds')\n# saveRDS(fit_grant, file = 'H&S gaussian [correct data].rds')\n# saveRDS(fit_grant_repli, file = 'H&S gaussian replication [correct data].rds')\n# saveRDS(fit_grant_hs_plus, file = 'H&S analysis/models/fitted H&S horseshoe plus.rds')\n\n# fit_grant_hs <- readRDS('H&S horseshoe[correct data].rds')\n# fit_grant <- readRDS('H&S gaussian [correct data].rds')\n# fit_grant_repli <- readRDS('H&S gaussian replication [correct data].rds')\n\n\n\n",
+    "created" : 1471984187329.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3061514855",
+    "id" : "6EBBFB19",
+    "lastKnownWriteTime" : 1471991790,
+    "path" : "~/GitHub/BSEM Priors/H&S analysis/H&S analysis.R",
+    "project_path" : "H&S analysis/H&S analysis.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

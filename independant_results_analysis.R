@@ -96,9 +96,6 @@ ind_test_loo_model <- lmer(value ~ 1 + variable + (1 | model_num), data = ind_fi
 # consistent difference in fit by models
 anova(ind_basic_loo_model, ind_test_loo_model)
 
-# plot fixed effect estimates from loo_model
-sjp.lmer(ind_test_loo_model, type = "fe.std", sort.coef = T, showPValueLabels = F)
-
 
 # extract fixed effect values and SEs for model fit chart
 

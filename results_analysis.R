@@ -112,10 +112,10 @@ ggplot(long_hs_plus_dens, aes(x = med, y = variable)) +
 #### out of sample model fit comparison ####
 
 # prepare LOO fit data
-sparse_fit <- data.frame(no_cl = sparse_no_cl  %>% select(elpd_loo), 
-                         gauss = sparse_gauss  %>% select(elpd_loo),
-                         hs = sparse_hs  %>% select(elpd_loo),
-                         hs_plus = sparse_hs_plus  %>% select(elpd_loo))
+sparse_fit <- data.frame(no_cl = sparse_no_cl  %>% dplyr::select(elpd_loo), 
+                         gauss = sparse_gauss  %>% dplyr::select(elpd_loo),
+                         hs = sparse_hs  %>% dplyr::select(elpd_loo),
+                         hs_plus = sparse_hs_plus  %>% dplyr::select(elpd_loo))
 
 # name columns
 names(sparse_fit) <- c("no_cl", "gauss", "hs", "hs_plus")
@@ -162,10 +162,10 @@ ggplot(model_fit_plot, aes(x = models, y = model_fit)) +
 #### LOO parameter number analysis ####
 
 # prepare p_LOO fit data
-sparse_param_num <- data.frame(no_cl = sparse_no_cl  %>% select(p_loo), 
-                         gauss = sparse_gauss  %>% select(p_loo),
-                         hs = sparse_hs  %>% select(p_loo),
-                         hs_plus = sparse_hs_plus  %>% select(p_loo))
+sparse_param_num <- data.frame(no_cl = sparse_no_cl  %>% dplyr::select(p_loo), 
+                         gauss = sparse_gauss  %>% dplyr::select(p_loo),
+                         hs = sparse_hs  %>% dplyr::select(p_loo),
+                         hs_plus = sparse_hs_plus  %>% dplyr::select(p_loo))
 
 # name columns
 names(sparse_param_num) <- c("no_cl", "gauss", "hs", "hs_plus")
